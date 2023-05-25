@@ -9,12 +9,23 @@ import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-    plugins: [vue(),
+    plugins: [
+        vue(),
+        // ...
         AutoImport({
             resolvers: [ElementPlusResolver()],
         }),
-        ElementPlus({
-            useSource: true,
+        // Components({
+        //     resolvers: [ElementPlusResolver()],
+        // }),
+        Components({
+            resolvers: [
+                ElementPlusResolver({
+                    importStyle: "sass",
+                    // directives: true,
+                    // version: "2.1.5",
+                }),
+            ],
         }),
     ],
     resolve: {
