@@ -6,6 +6,9 @@
 <template>
   <!-- 一级路由的位置 -->
   <RouterView />
+  <div class="test">
+    test scss
+  </div>
   <el-row class="mb-4">
     <el-button round>Round</el-button>
     <el-button type="primary" round>Primary</el-button>
@@ -16,4 +19,8 @@
   </el-row>
 </template>
 
-<style scoped></style>
+<style scoped lang="scss">
+.test {
+  color: $priceColor;
+}
+</style>
