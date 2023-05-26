@@ -19,6 +19,7 @@
   </el-row>
 </template>
 
+
 <style scoped lang="scss">
 .test {
   color: $priceColor;
