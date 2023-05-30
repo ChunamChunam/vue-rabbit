@@ -44,5 +44,9 @@ export default defineConfig({
             `,
             }
         }
+    },
+    devServer: {
+        port: 8080,
+
     }
 })
