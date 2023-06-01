@@ -4,9 +4,10 @@ import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import GoodsItem from '../Home/components/GoodsItem.vue';
 
-// 获取面包屑导航数据 
-const route = useRoute()
+
+// 获取面包屑导航数据
 const categoryData = ref({})
+const route = useRoute()
 const getCategoryData = async () => {
     const res = await getCategoryFilterAPI(route.params.id)
     categoryData.value = res.data.result
@@ -21,15 +22,16 @@ const reqData = ref({
     pageSize: 20,
     sortField: 'publishTime'
 })
-
 const getGoodList = async () => {
-    const res = await getSubCategoryAPI(reqData.value);
+    const res = await getSubCategoryAPI(reqData.value)
+    console.log(res)
     goodList.value = res.data.result.items
 }
 onMounted(() => getGoodList())
 
 
-// 切换回调
+
+// tab切换回调
 const tabChange = () => {
     reqData.value.page = 1
     getGoodList()
@@ -41,12 +43,14 @@ const disabled = ref(false)
 const load = async () => {
     // 获取下一页的数据
     reqData.value.page++
-    const res = await getSubCategoryAPI(reqData.data)
+    const res = await getSubCategoryAPI(reqData.value)
     goodList.value = [...goodList.value, ...res.data.result.items]
+    // 加载完毕 停止监听
     if (res.data.result.items.length === 0) {
         disabled.value = true
     }
 }
+
 </script>
 
 <template>
