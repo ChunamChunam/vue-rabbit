@@ -24,12 +24,12 @@ const reqData = ref({
 })
 const getGoodList = async () => {
     const res = await getSubCategoryAPI(reqData.value)
-    console.log(res)
+    // console.log(res)
     goodList.value = res.data.result.items
 }
 onMounted(() => getGoodList())
 
-
+// 今日摸鱼
 
 // tab切换回调
 const tabChange = () => {
