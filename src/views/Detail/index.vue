@@ -1,8 +1,10 @@
 <script setup>
+import ImageView from '@/components/ImageView/index.vue'
 import { getDetail } from '@/apis/detail';
 import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import DetailHot from './components/detailHot.vue'
+
 
 const goods = ref({})
 const route = useRoute()
@@ -21,11 +23,11 @@ onMounted(() => getGoods())
                 <el-breadcrumb separator=">">
                     <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
                     <!-- 
-                                              错误原因：goods一开始{}  {}.categories -> undefined  -> undefined[1]
-                                              1. 可选链的语法?. 
-                                              goods.categories?.[1].id}
-                                              2. v-if手动控制渲染时机 保证只有数据存在才渲染
-                                             -->
+                                                              错误原因：goods一开始{}  {}.categories -> undefined  -> undefined[1]
+                                                              1. 可选链的语法?. 
+                                                              goods.categories?.[1].id}
+                                                              2. v-if手动控制渲染时机 保证只有数据存在才渲染
+                                                             -->
                     <el-breadcrumb-item :to="{ path: `/category/${goods.categories[1].id}` }">{{ goods.categories[1].name }}
                     </el-breadcrumb-item>
                     <el-breadcrumb-item :to="{ path: `/category/sub/${goods.categories[0].id}` }">{{
@@ -41,7 +43,7 @@ onMounted(() => getGoods())
                     <div class="goods-info">
                         <div class="media">
                             <!-- 图片预览区 -->
-
+                            <ImageView />
                             <!-- 统计数量 -->
                             <ul class="goods-sales">
                                 <li>
