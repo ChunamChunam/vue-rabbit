@@ -1,7 +1,8 @@
 <script setup>
-import ImageView from '@/components/ImageView/index.vue'
+
 import DetailHot from './components/detailHot.vue'
-import XtxSku from '@/components/XtxSku/index.vue'
+// import ImageView from '@/components/ImageView/index.vue'
+// import XtxSku from '@/components/XtxSku/index.vue'
 import { getDetail } from '@/apis/detail';
 import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
@@ -29,11 +30,11 @@ const skuChange = (sku) => {
                 <el-breadcrumb separator=">">
                     <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
                     <!-- 
-                                                                                                          错误原因：goods一开始{}  {}.categories -> undefined  -> undefined[1]
-                                                                                                          1. 可选链的语法?. 
-                                                                                                          goods.categories?.[1].id}
-                                                                                                          2. v-if手动控制渲染时机 保证只有数据存在才渲染
-                                                                                                         -->
+                                                                                                                      错误原因：goods一开始{}  {}.categories -> undefined  -> undefined[1]
+                                                                                                                      1. 可选链的语法?. 
+                                                                                                                      goods.categories?.[1].id}
+                                                                                                                      2. v-if手动控制渲染时机 保证只有数据存在才渲染
+                                                                                                                     -->
                     <el-breadcrumb-item :to="{ path: `/category/${goods.categories[1].id}` }">{{ goods.categories[1].name }}
                     </el-breadcrumb-item>
                     <el-breadcrumb-item :to="{ path: `/category/sub/${goods.categories[0].id}` }">{{
@@ -49,7 +50,7 @@ const skuChange = (sku) => {
                     <div class="goods-info">
                         <div class="media">
                             <!-- 图片预览区 -->
-                            <ImageView :image-list="goods.mainPictures" />
+                            <XtxImageView :image-list="goods.mainPictures" />
                             <!-- 统计数量 -->
                             <ul class="goods-sales">
                                 <li>
