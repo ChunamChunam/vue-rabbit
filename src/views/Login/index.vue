@@ -3,6 +3,10 @@
 
 
 import { ref } from 'vue';
+import { loginAPI } from '@/apis/user'
+import { ElMessage } from 'element-plus'
+import { useRouter } from 'vue-router';
+import 'element-plus/theme-chalk/el-message.css'
 
 // 表单数据对象
 const form = ref({
@@ -33,15 +37,21 @@ const rules = {
 
 // 获取form实例做统一校验
 const fromRef = ref(null)
-
+const router = useRouter()
 const doLogin = () => {
+    const { account, password } = form.value
     // 调用实例方法
-    fromRef.value.validate((valid) => {
+    fromRef.value.validate(async (valid) => {
         // valid ：所有表单都通过校验才为true
         // console.log(valid);
         // 以valid作为判断条件，如果通过校验才执行登录逻辑
         if (valid) {
             // TODO LOGIN
+            await loginAPI({ account, password })
+            // 1. 提示用户
+            ElMessage({ type: 'success', message: '登录成功' })
+            // 2. 跳转首页
+            router.replace({ path: '/' })
         }
     })
 }
