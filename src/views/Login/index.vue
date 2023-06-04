@@ -1,12 +1,14 @@
 <script setup>
 // 表单校验 （账号名 + 密码）
 
+
 import { ref } from 'vue';
 
 // 表单数据对象
 const form = ref({
     account: '',
-    password: ''
+    password: '',
+    agree: true
 })
 
 // 规则数据对象
@@ -20,7 +22,13 @@ const rules = {
     }, {
         min: 6, max: 14, message: 'Length should be 6 to 14', trigger: 'blur'
     }],
-
+    agree: [
+        {
+            validator: (rule, value, callback) => {
+                return value ? callback() : new Error('请先同意协议')
+            }
+        }
+    ]
 }
 
 </script>
@@ -54,8 +62,8 @@ const rules = {
                             <el-form-item prop="password" label="密码">
                                 <el-input v-model="form.password" />
                             </el-form-item>
-                            <el-form-item label-width="22px">
-                                <el-checkbox size="large">
+                            <el-form-item prop="agree" label-width="22px">
+                                <el-checkbox size="large" v-model="form.agree">
                                     我已同意隐私条款和服务条款
                                 </el-checkbox>
                             </el-form-item>
