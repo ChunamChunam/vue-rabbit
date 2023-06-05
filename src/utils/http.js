@@ -1,4 +1,5 @@
 // 基础的封装
+import { useUserStore } from "@/stores/user"
 import axios from "axios";
 import { ElMessage } from 'element-plus'
 import 'element-plus/theme-chalk/el-message.css'
@@ -12,6 +13,13 @@ const httpInstance = axios.create({
 // 添加请求拦截器
 httpInstance.interceptors.request.use(function(config) {
     // 在发送请求之前做些什么
+    // 1. 从pinia获取token数据
+    const userStore = useUserStore()
+        // 2. 按照后端的要求拼接token数据
+    const token = userStore.userInfo.token
+    if (token) {
+        config.headers.Authorization = `Bearer ${token}`
+    }
     return config;
 }, function(error) {
     // 对请求错误做些什么
