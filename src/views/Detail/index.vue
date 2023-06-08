@@ -1,15 +1,17 @@
 <script setup>
 
-import DetailHot from './components/detailHot.vue'
+import DetailHot from './components/DetailHot.vue'
 // import ImageView from '@/components/ImageView/index.vue'
 // import XtxSku from '@/components/XtxSku/index.vue'
 import { getDetail } from '@/apis/detail';
+import { ElMessage } from 'element-plus';
 import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
-
+import { useCartStore } from '@/stores/cartStores'
 
 const goods = ref({})
 const route = useRoute()
+const cartStore = useCartStore()
 
 const getGoods = async () => {
     const res = await getDetail(route.params.id)
@@ -18,8 +20,37 @@ const getGoods = async () => {
 onMounted(() => getGoods())
 
 // sku规格被操作时
+let skuObj = {}
 const skuChange = (sku) => {
     console.log(sku);
+    skuObj = sku
+}
+
+// count
+const count = ref(1)
+
+const countChange = (count) => {
+    // console.log(count);
+}
+
+// 添加购物车
+const addCart = () => {
+    if (skuObj.skuId) {
+        // 规则已经选择 出发action
+        cartStore.addCart({
+            id: goods.value.id,
+            name: goods.value.name,
+            picture: goods.value.mainPictures[0],
+            price: goods.value.price,
+            count: count,
+            skuId: skuObj.skuId,
+            attrsText: skuObj.specsText,
+            selected: true
+        })
+    } else {
+        // 规格没有选择
+        ElMessage.warning('请选择规格')
+    }
 }
 
 </script>
@@ -30,11 +61,11 @@ const skuChange = (sku) => {
                 <el-breadcrumb separator=">">
                     <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
                     <!-- 
-                                                                                                                      错误原因：goods一开始{}  {}.categories -> undefined  -> undefined[1]
-                                                                                                                      1. 可选链的语法?. 
-                                                                                                                      goods.categories?.[1].id}
-                                                                                                                      2. v-if手动控制渲染时机 保证只有数据存在才渲染
-                                                                                                                     -->
+                                                                                                                                                                                                                                                  错误原因：goods一开始{}  {}.categories -> undefined  -> undefined[1]
+                                                                                                                                                                                                                                                  1. 可选链的语法?. 
+                                                                                                                                                                                                                                                  goods.categories?.[1].id}
+                                                                                                                                                                                                                                                  2. v-if手动控制渲染时机 保证只有数据存在才渲染
+                                                                                                                                                                                                                                                 -->
                     <el-breadcrumb-item :to="{ path: `/category/${goods.categories[1].id}` }">{{ goods.categories[1].name }}
                     </el-breadcrumb-item>
                     <el-breadcrumb-item :to="{ path: `/category/sub/${goods.categories[0].id}` }">{{
@@ -101,10 +132,10 @@ const skuChange = (sku) => {
                             <!-- sku组件 -->
                             <XtxSku :goods="goods" @change="skuChange" />
                             <!-- 数据组件 -->
-
+                            <el-input-number v-model="count" @change="countChange" />
                             <!-- 按钮组件 -->
                             <div>
-                                <el-button size="large" class="btn">
+                                <el-button size="large" class="btn" @click="addCart">
                                     加入购物车
                                 </el-button>
                             </div>
